@@ -2,12 +2,16 @@ from means import *
 import random
 from math import isnan
 
+# Для красивого вывода матрицы
 def print_matrix(matrix):
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
             print(matrix[i][j], end=" ")
         print()
 
+# Проверяет прошлую матрицу F с текущей на близость по параметру E (эпсилон).
+# Если какая-то из вероятностей больше предыдущей на E, возвращается False.
+# True возвращается, если все вероятности меньше E.
 def check_f(f_prev, f_cur, e):
     if ((len(f_prev) != len(f_cur)) | (len(f_prev[0]) != len(f_cur[0]))):
         raise Exception("Different lengths")
@@ -17,9 +21,11 @@ def check_f(f_prev, f_cur, e):
                 return False
     return True
 
-
+# Кол-во точек
 n = 10
+# Кол-во кластеров
 K = 3
+# Епсилон
 E = 0.01
 
 x = [random.randint(1, 100) for i in range(n)]
@@ -38,6 +44,7 @@ for i in range(0, n):
 v_x = [R * np.cos(2 * np.pi * i / K) + x_c for i in range(K)]
 v_y = [R * np.sin(2 * np.pi * i / K) + y_c for i in range(K)]
 
+# Первоначальное заполнение матрицы D - расстояние между центройдами и точками.
 d = []
 for k in range(K):
     clust = []
@@ -45,6 +52,7 @@ for k in range(K):
         clust.append(dist(x[i], y[i], v_x[k], v_y[k]))
     d.append(clust)
 
+# Заполненеи той самой искомой матрицы, но пока первоначальное.
 f = []
 for k in range(n):
     clust = []
@@ -55,12 +63,16 @@ for k in range(n):
         clust.append(1/sum)
     f.append(clust)
 
+# Заполняем предыдущий F нулями, а в текущий кладем только что найденную матрицу.
 f_prev = [[0 for i in range(K)] for j in range(n)]
 f_cur = f
 
+# Будем считать сколько раз перезаполнялись матрицы
 count = 1
 
+# Перезаполняем данные до тех пор, матрицы не будут достаточно (в пределах е) похожи
 while(not check_f(f_prev, f_cur, E)):
+    # Итерационное заполнение V
     v_x = []
     v_y = []
     for i in range(K):
@@ -70,6 +82,7 @@ while(not check_f(f_prev, f_cur, E)):
         v_x.append((sum * x[i]) / sum)
         v_y.append((sum * y[i]) / sum)
 
+    # Итерационное заполнение D
     d = []
     for k in range(K):
         clust = []
@@ -77,6 +90,7 @@ while(not check_f(f_prev, f_cur, E)):
             clust.append(dist(x[i], y[i], v_x[k], v_y[k]))
         d.append(clust)
 
+    # Итерационное заполнение F
     f = []
     for k in range(n):
         clust = []
@@ -89,9 +103,11 @@ while(not check_f(f_prev, f_cur, E)):
             clust.append(1 / sum)
         f.append(clust)
 
+    # Заменяем матрицы, увеличичваем счетчик.
     f_prev = f_cur
     f_cur = f
     count += 1
 
+# Вывод получившейся матрицы и сколько понадобилось итераций, чтобы е получить.
 print_matrix(f_cur)
 print(count)
