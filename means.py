@@ -1,5 +1,11 @@
 import numpy as np
 
+# Для красивого вывода матрицы
+def print_matrix(matrix):
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            print(matrix[i][j], end=" ")
+        print()
 
 def dist(x1, y1, x2, y2):
     return np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)

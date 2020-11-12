@@ -2,13 +2,6 @@ from means import *
 import random
 from math import isnan
 
-# Для красивого вывода матрицы
-def print_matrix(matrix):
-    for i in range(len(matrix)):
-        for j in range(len(matrix[i])):
-            print(matrix[i][j], end=" ")
-        print()
-
 # Проверяет прошлую матрицу F с текущей на близость по параметру E (эпсилон).
 # Если какая-то из вероятностей больше предыдущей на E, возвращается False.
 # True возвращается, если все вероятности меньше E.
