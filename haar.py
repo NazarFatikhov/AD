@@ -6,7 +6,7 @@ from cv2 import CascadeClassifier
 from cv2 import rectangle
 # Загружаем фотокарточку
 pixels = imread('test4.jpg')
-# Загружаем результаты тренеровок классификатор
+# Загружаем результаты тренеровок в классификатор
 classifier = CascadeClassifier('haarcascade_frontalface_default.xml')
 # Формируем рамку на основе фотографии
 bboxes = classifier.detectMultiScale(pixels)
